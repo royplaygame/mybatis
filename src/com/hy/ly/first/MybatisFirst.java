@@ -41,4 +41,7 @@ public class MybatisFirst {
 	private void test() {
 		System.out.println("------------------------");
 	}
+	public static void main(String[] args) {
+		System.out.println("------------------------");
+	}
 }
