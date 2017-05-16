@@ -1,4 +1,4 @@
-package com.hy.ly.mybatis.first;
+package com.hy.ly.first;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,5 +35,10 @@ public class MybatisFirst {
 			sqlSession.close();
 		}
 
+	}
+	
+	@Test
+	private void test() {
+		System.out.println("------------------------");
 	}
 }
