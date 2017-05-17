@@ -15,4 +15,6 @@ public interface UserInfoDao {
 	public void updateUserInfo(UserInfo userInfo) throws Exception;
 
 	public List<UserInfo> findUserInfoList() throws Exception;
+
+	public List<UserInfo> findUserByName(String username) throws Exception;
 }
