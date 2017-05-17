@@ -49,4 +49,24 @@ public class UserInfo {
 		this.address = address;
 	}
 
+	@Override
+	public String toString() {
+		return "UserInfo [userid=" + userid + ", username=" + username + ", birthday=" + birthday + ", sex=" + sex
+				+ ", address=" + address + "]";
+	}
+
+	public UserInfo(int userid,String username, Date birthday, String sex, String address) {
+		super();
+		this.userid=userid;
+		this.username = username;
+		this.birthday = birthday;
+		this.sex = sex;
+		this.address = address;
+	}
+
+	public UserInfo() {
+		super();
+	}
+	
+
 }
