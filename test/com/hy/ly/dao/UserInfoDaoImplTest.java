@@ -28,7 +28,7 @@ public class UserInfoDaoImplTest {
 	@Test
 	public void findTest() throws Exception {
 		UserInfoDao userInfoDao = new UserInfoDaoImpl(sqlSessionFactory);
-		UserInfo userInfo = userInfoDao.findUserById(1105);
+		UserInfo userInfo = userInfoDao.findUserById(1005);
 		System.out.println(userInfo);
 	}
 
