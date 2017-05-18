@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hy.ly.mapper.UserInfoMapper">
+	<select id="findUserInfoById" resultType="com.hy.ly.entity.UserInfo"
+		parameterType="int">
+		select * from userinfo where userid = #{userid}
+	</select>
+	<select id="findUserByName" resultType="com.hy.ly.entity.UserInfo"
+		parameterType="java.lang.String">
+		select * from userinfo where username like '%${value}%'
+	</select>
+	<insert id="insertUserInfo" parameterType="com.hy.ly.entity.UserInfo">
+		<selectKey keyProperty="userid" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID();
+		</selectKey>
+		INSERT INTO userinfo(username,birthday,sex,address)
+		VALUE(#{username},#{birthday},#{sex},#{address});
+	</insert>
+	<delete id="deleteUserInfo" parameterType="java.lang.Integer">
+	    DELETE FROM userinfo WHERE userid=#{userid}
+	</delete>
+	<update id="updateUserInfo" parameterType="com.hy.ly.entity.UserInfo">
+	    UPDATE userinfo SET username=#{username},birthday=#{birthday},sex=#{sex},address=#{address} WHERE userid=#{userid}
+	</update>
+
+</mapper>
