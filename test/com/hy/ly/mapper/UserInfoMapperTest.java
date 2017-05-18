@@ -1,6 +1,7 @@
 package com.hy.ly.mapper;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -84,6 +85,12 @@ public class UserInfoMapperTest {
 		userInfoCustom.setSex("女");
 		userInfoCustom.setUsername("乔");
 		userInfoQueryVo.setUserInfoCustom(userInfoCustom);
+		List<Integer> userids=new ArrayList();
+		userids.add(1000);
+		userids.add(1008);
+		userids.add(1109);
+		userids.add(1103);
+		userInfoQueryVo.setUserids(userids);
 		List<UserInfoCustom> list=userInfoMapper.findUserInfoList(userInfoQueryVo);
 		for(UserInfoCustom userCustom:list){
 			System.out.println(userCustom.toString());

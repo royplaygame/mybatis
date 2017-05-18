@@ -3,6 +3,30 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hy.ly.mapper.UserInfoMapper">
+	<!-- 定义一个sql片段 -->
+	<sql id="query_userInfo_where">
+		<if test="userInfoCustom!=null">
+			<if test="userInfoCustom.sex!=null and userInfoCustom.sex!=''">
+				and sex=#{userInfoCustom.sex}
+			</if>
+			<if test="userInfoCustom.username!=null and userInfoCustom.username!=''">
+				and username like '%${userInfoCustom.username}%'
+			</if>
+		</if>
+		<!-- AND (userid=1003 OR userid=1008 OR userid=1106) -->
+		<!-- <if test="userids!=null">
+			<foreach collection="userids" item="userid" open="AND (" close=")" separator="OR">
+				userid=#{userid}
+			</foreach>
+		</if> -->
+		<!-- userid in (1003,1008,1106)拼接 -->
+		<if test="userids!=null">
+		    <foreach collection="userids" item="userid" open="and userid in (" close=")" separator=",">
+				#{userid}
+			</foreach>
+		</if>
+	</sql>
+
 	<!-- 定义resultMap 将select userid userid_, username username_ from userinfo结果和UserInfo的属性进行映射-->
 	<resultMap type="com.hy.ly.entity.UserInfo" id="userInfoResultMap">
 		<id column="userid_" property="userid"/>
@@ -13,28 +37,16 @@
 	<select id="findUserInfoList" resultType="com.hy.ly.entity.UserInfoCustom" parameterType="com.hy.ly.entity.UserInfoQueryVo">
 		select * from userinfo 
 		<where>
-			<if test="userInfoCustom!=null">
-				<if test="userInfoCustom.sex!=null and userInfoCustom.sex!=''">
-					and sex=#{userInfoCustom.sex}
-				</if>
-				<if test="userInfoCustom.username!=null and userInfoCustom.username!=''">
-					and username like '%${userInfoCustom.username}%'
-				</if>
-			</if>
+		    <!-- 引用sql片段 -->
+			<include refid="query_userInfo_where"></include>
+			<!-- 在这里还可以引用其它的sql片段 -->
 		</where>
 	</select>
 	<!-- 用户信息的结合查询总数 -->
 	<select id="findUserInfoCount" parameterType="com.hy.ly.entity.UserInfoQueryVo" resultType="java.lang.Integer">
 		select count(*) from userinfo 
 		<where>
-			<if test="userInfoCustom!=null">
-				<if test="userInfoCustom.sex!=null and userInfoCustom.sex!=''">
-					and sex=#{userInfoCustom.sex}
-				</if>
-				<if test="userInfoCustom.username!=null and userInfoCustom.username!=''">
-					and username like '%${userInfoCustom.username}%'
-				</if>
-			</if>
+			<include refid="query_userInfo_where"></include>
 		</where>
 	</select>
 	<!-- 作用resultMap来完成输出的映射 -->
