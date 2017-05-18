@@ -32,7 +32,7 @@ public class UserInfoDaoImpl implements UserInfoDao {
 	@Override
 	public void deleteUserInfo(int userid) throws Exception {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
-		sqlSession.delete("test.deleteUserInfo",1001);
+		sqlSession.delete("test.deleteUserInfo",userid);
 		sqlSession.commit();
 		sqlSession.close();
 	}
