@@ -14,6 +14,8 @@
 		<setting name="lazyLoadingEnabled" value="true" />
 		<!-- 关闭积极加载 -->
 		<setting name="aggressiveLazyLoading" value="false" />
+		<!-- 开启二级缓存 -->
+		<setting name="cacheEnabled" value="true"/>
 	</settings>
 	<!-- 别名的配置 -->
 	<typeAliases>

@@ -1,9 +1,12 @@
 package com.hy.ly.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class UserInfo {
+public class UserInfo implements Serializable{
+
+	private static final long serialVersionUID = 2320711037870464313L;
 	private int userid;
 	private String username;
 	private Date birthday;

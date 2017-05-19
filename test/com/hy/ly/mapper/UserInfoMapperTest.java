@@ -79,6 +79,7 @@ public class UserInfoMapperTest {
 		sqlSession.close();
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Test
 	public void findUserInfoList() throws Exception {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
@@ -128,10 +129,48 @@ public class UserInfoMapperTest {
 	@Test
 	public void oneCacheTest() throws Exception {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
-		UserInfoMapper userInfoMapper=sqlSession.getMapper(UserInfoMapper.class);
-		//第一次查询
-		UserInfo userInfo1 = userInfoMapper.findUserInfoByResultMap(1010);
-		//第二次查询
-		UserInfo userInfo2 = userInfoMapper.findUserInfoByResultMap(1010);
+		UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+		// 第一次查询
+		UserInfo userInfo1 = userInfoMapper.findUserInfoById(1010);
+		System.out.println(userInfo1);
+
+		// 更新用户,执行commit操作，才会去清空缓存
+		userInfo1.setUsername("吴国太11111");
+		userInfoMapper.updateUserInfo(userInfo1);
+		sqlSession.commit();
+
+		// 第二次查询
+		UserInfo userInfo2 = userInfoMapper.findUserInfoById(1010);
+		System.out.println(userInfo2);
+		sqlSession.close();
+	}
+
+	// 二级缓存测试
+	@Test
+	public void towCacheTest() throws Exception {
+		SqlSession sqlSession1 = sqlSessionFactory.openSession();
+		SqlSession sqlSession2 = sqlSessionFactory.openSession();
+		SqlSession sqlSession3 = sqlSessionFactory.openSession();
+		UserInfoMapper userInfoMapper1 = sqlSession1.getMapper(UserInfoMapper.class);
+		// 第一次查询
+		UserInfo userInfo1 = userInfoMapper1.findUserInfoById(1010);
+		System.out.println(userInfo1);
+		//执行关闭操作，才把sqlSession中的数据写入二级缓存
+		sqlSession1.close();
+		
+		//sqlSession3来执行提交操作
+		UserInfoMapper userInfoMapper3 = sqlSession3.getMapper(UserInfoMapper.class);
+		UserInfo userInfo3 = userInfoMapper3.findUserInfoById(1010);
+		userInfo3.setUsername("吴国太");
+		userInfoMapper3.updateUserInfo(userInfo3);
+		//提交清空二级缓存
+		sqlSession3.commit();
+		sqlSession3.close();
+		
+		UserInfoMapper userInfoMapper2 = sqlSession2.getMapper(UserInfoMapper.class);
+		// 第二次查询
+		UserInfo userInfo2 = userInfoMapper2.findUserInfoById(1010);
+		System.out.println(userInfo2);
+		sqlSession2.close();
 	}
 }

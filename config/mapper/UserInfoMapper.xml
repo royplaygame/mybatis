@@ -3,6 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hy.ly.mapper.UserInfoMapper">
+	<!-- 开启本mapper的namespace的二级缓存  -->
+	<cache></cache>
 	<!-- 定义一个sql片段 -->
 	<sql id="query_userInfo_where">
 		<if test="userInfoCustom!=null">
@@ -53,7 +55,7 @@
 	<select id="findUserInfoByResultMap" resultMap="userInfoResultMap" parameterType="int">
 		select userid userid_, username username_ from userinfo where userid = #{userid}
 	</select>
-	
+	<!-- useCache="false"可以禁用二级缓存  -->
 	<select id="findUserInfoById" resultType="com.hy.ly.entity.UserInfo"
 		parameterType="int">
 		select * from userinfo where userid = #{userid}
