@@ -33,5 +33,6 @@
 		<mapper resource="mapper/UserInfoMapper.xml" />
 		<!-- 通过mapper接口的方法来加载  -->
 		<!-- <mapper class="com.hy.ly.mapper.UserInfoMapper"/> -->
+		<mapper class="com.hy.ly.mapper.OrdersMapperCustom"/>
 	</mappers>
 </configuration>
