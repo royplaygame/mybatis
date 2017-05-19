@@ -9,13 +9,18 @@
 		<!-- <property name="" value="" /> -->
 	</properties>
 	<!-- 全局配置参数，使用再配置 -->
-	<!-- <settings></settings> -->
+	<settings>
+		<!-- 打开延迟加载开关 -->
+		<setting name="lazyLoadingEnabled" value="true" />
+		<!-- 关闭积极加载 -->
+		<setting name="aggressiveLazyLoading" value="false" />
+	</settings>
 	<!-- 别名的配置 -->
 	<typeAliases>
-	    <!-- 单个别名 -->
+		<!-- 单个别名 -->
 		<!-- <typeAlias type="com.hy.ly.entity.UserInfo" alias="userInfo"/> -->
 		<!-- 批量定义别名，别名的名称默认是类名首字母小写 -->
-		<package name="com.hy.ly.entity"/>
+		<package name="com.hy.ly.entity" />
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -31,8 +36,8 @@
 	<mappers>
 		<mapper resource="sqlmap/UserInfo.xml" />
 		<mapper resource="mapper/UserInfoMapper.xml" />
-		<!-- 通过mapper接口的方法来加载  -->
+		<!-- 通过mapper接口的方法来加载 -->
 		<!-- <mapper class="com.hy.ly.mapper.UserInfoMapper"/> -->
-		<mapper class="com.hy.ly.mapper.OrdersMapperCustom"/>
+		<mapper class="com.hy.ly.mapper.OrdersMapperCustom" />
 	</mappers>
 </configuration>

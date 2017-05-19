@@ -17,7 +17,7 @@ import com.hy.ly.entity.UserInfoCustom;
 import com.hy.ly.entity.UserInfoQueryVo;
 
 public class UserInfoMapperTest {
-	
+
 	private SqlSessionFactory sqlSessionFactory;
 
 	@Before
@@ -32,45 +32,48 @@ public class UserInfoMapperTest {
 
 	@Test
 	public void findUserInfoById() throws Exception {
-		SqlSession sqlSession=sqlSessionFactory.openSession();
-		UserInfoMapper userInfoMapper=sqlSession.getMapper(UserInfoMapper.class);
-		UserInfo userInfo=userInfoMapper.findUserInfoById(1005);
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+		UserInfo userInfo = userInfoMapper.findUserInfoById(1005);
 		System.out.println(userInfo);
 		sqlSession.close();
 	}
-	
+
 	@Test
 	public void findUserInfoByName() throws Exception {
-		SqlSession sqlSession=sqlSessionFactory.openSession();
-		UserInfoMapper userInfoMapper=sqlSession.getMapper(UserInfoMapper.class);
-		List<UserInfo> list=userInfoMapper.findUserByName("张");
-		for(UserInfo userInfo:list){
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+		List<UserInfo> list = userInfoMapper.findUserByName("张");
+		for (UserInfo userInfo : list) {
 			System.out.println(userInfo);
 		}
 		sqlSession.close();
 	}
+
 	@Test
 	public void updateUserInfo() throws Exception {
-		SqlSession sqlSession=sqlSessionFactory.openSession();
-		UserInfoMapper userInfoMapper=sqlSession.getMapper(UserInfoMapper.class);
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
 		UserInfo userInfo = new UserInfo(1010, "吴国太", new Date(), "女", "河南驻马店");
 		userInfoMapper.updateUserInfo(userInfo);
 		sqlSession.commit();
 		sqlSession.close();
 	}
+
 	@Test
 	public void addUserInfo() throws Exception {
-		SqlSession sqlSession=sqlSessionFactory.openSession();
-		UserInfoMapper userInfoMapper=sqlSession.getMapper(UserInfoMapper.class);
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
 		UserInfo userInfo = new UserInfo(1008, "sunshangxiang", new Date(), "男", "河南开封");
 		userInfoMapper.insertUserInfo(userInfo);
 		sqlSession.commit();
 		sqlSession.close();
 	}
+
 	@Test
 	public void deleteUserInfo() throws Exception {
-		SqlSession sqlSession=sqlSessionFactory.openSession();
-		UserInfoMapper userInfoMapper=sqlSession.getMapper(UserInfoMapper.class);
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
 		userInfoMapper.deleteUserInfo(1008);
 		sqlSession.commit();
 		sqlSession.close();
@@ -78,45 +81,57 @@ public class UserInfoMapperTest {
 
 	@Test
 	public void findUserInfoList() throws Exception {
-		SqlSession sqlSession=sqlSessionFactory.openSession();
-		UserInfoMapper userInfoMapper=sqlSession.getMapper(UserInfoMapper.class);
-		UserInfoQueryVo userInfoQueryVo=new UserInfoQueryVo();
-		UserInfoCustom userInfoCustom=new UserInfoCustom();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+		UserInfoQueryVo userInfoQueryVo = new UserInfoQueryVo();
+		UserInfoCustom userInfoCustom = new UserInfoCustom();
 		userInfoCustom.setSex("女");
 		userInfoCustom.setUsername("乔");
 		userInfoQueryVo.setUserInfoCustom(userInfoCustom);
-		List<Integer> userids=new ArrayList();
+		List<Integer> userids = new ArrayList();
 		userids.add(1000);
 		userids.add(1008);
 		userids.add(1109);
 		userids.add(1103);
 		userInfoQueryVo.setUserids(userids);
-		List<UserInfoCustom> list=userInfoMapper.findUserInfoList(userInfoQueryVo);
-		for(UserInfoCustom userCustom:list){
+		List<UserInfoCustom> list = userInfoMapper.findUserInfoList(userInfoQueryVo);
+		for (UserInfoCustom userCustom : list) {
 			System.out.println(userCustom.toString());
 		}
 		sqlSession.close();
 	}
+
 	@Test
 	public void findUserInfoCount() throws Exception {
-		SqlSession sqlSession=sqlSessionFactory.openSession();
-		UserInfoMapper userInfoMapper=sqlSession.getMapper(UserInfoMapper.class);
-		UserInfoQueryVo userInfoQueryVo=new UserInfoQueryVo();
-		UserInfoCustom userInfoCustom=new UserInfoCustom();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+		UserInfoQueryVo userInfoQueryVo = new UserInfoQueryVo();
+		UserInfoCustom userInfoCustom = new UserInfoCustom();
 		userInfoCustom.setSex("女");
 		userInfoCustom.setUsername("乔");
 		userInfoQueryVo.setUserInfoCustom(userInfoCustom);
-		int count=userInfoMapper.findUserInfoCount(userInfoQueryVo);
+		int count = userInfoMapper.findUserInfoCount(userInfoQueryVo);
 		System.out.println(count);
 		sqlSession.close();
 	}
-	
+
 	@Test
 	public void findUserInfoByIdResultMap() throws Exception {
-		SqlSession sqlSession=sqlSessionFactory.openSession();
-		UserInfoMapper userInfoMapper=sqlSession.getMapper(UserInfoMapper.class);
-		UserInfo userInfo=userInfoMapper.findUserInfoByResultMap(1010);
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+		UserInfo userInfo = userInfoMapper.findUserInfoByResultMap(1010);
 		System.out.println(userInfo);
 		sqlSession.close();
+	}
+
+	// 一级缓存测试
+	@Test
+	public void oneCacheTest() throws Exception {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserInfoMapper userInfoMapper=sqlSession.getMapper(UserInfoMapper.class);
+		//第一次查询
+		UserInfo userInfo1 = userInfoMapper.findUserInfoByResultMap(1010);
+		//第二次查询
+		UserInfo userInfo2 = userInfoMapper.findUserInfoByResultMap(1010);
 	}
 }

@@ -52,10 +52,10 @@
 				<result column="items_num" property="items_num" />
 				<!-- 商品信息 -->
 				<association property="item" javaType="com.hy.ly.entity.Items">
-					<id column="item_id" property="id"/>
-					<result column="item_name"  property="name"/>
-					<result column="item_detail"  property="detail"/>
-					<result column="item_price"  property="price"/>
+					<id column="item_id" property="id" />
+					<result column="item_name" property="name" />
+					<result column="item_detail" property="detail" />
+					<result column="item_price" property="price" />
 				</association>
 			</collection>
 		</collection>
@@ -94,10 +94,30 @@
 		it.name item_name,
 		it.detail
 		item_detail,it.price item_price
-		FROM orders o,userinfo u, orderdetail
+		FROM orders o,userinfo u,
+		orderdetail
 		od ,items it WHERE o.userid=u.userid
-		and o.orderid=od.orders_id and
+		and
+		o.orderid=od.orders_id and
 		it.id=od.items_id;
 	</select>
 
+	<!-- 延迟加载的ResultMap -->
+	<resultMap type="com.hy.ly.entity.Orders" id="OrdersUserInfoLazyLoading">
+		<!-- 订单信息配置 -->
+		<id column="orderid" property="orderid" />
+		<result column="userid" property="userid" />
+		<result column="number" property="number" />
+		<result column="createtime" property="createtime" />
+		<result column="note" property="note" />
+		<!-- 用户信息的延迟加载 -->
+		<association property="userInfo" javaType="com.hy.ly.entity.UserInfo" select="com.hy.ly.mapper.UserInfoMapper.findUserInfoById" column="userid">
+		</association>
+	</resultMap>
+
+	<!-- 查询订单关联查询用户，用户信息需要延迟加载 -->
+	<select id="findOrdersUserInfoLazyLoading" resultMap="OrdersUserInfoLazyLoading">
+		SELECT *
+		FROM orders
+	</select>
 </mapper>

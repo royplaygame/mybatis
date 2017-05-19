@@ -33,53 +33,71 @@ public class OrdersCustomTest {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		OrdersMapperCustom ordersMapperCustom = sqlSession.getMapper(OrdersMapperCustom.class);
 		List<OrdersCustom> list = ordersMapperCustom.findOrderInfoUser();
-		for(OrdersCustom oc:list){
+		for (OrdersCustom oc : list) {
 			System.out.println(oc.toString());
 		}
 		sqlSession.close();
 	}
+
 	@Test
 	public void findOrdersResultMap() throws Exception {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		OrdersMapperCustom ordersMapperCustom = sqlSession.getMapper(OrdersMapperCustom.class);
 		List<Orders> list = ordersMapperCustom.findOrderInfoUserResultMap();
-		for(Orders order:list){
-			System.out.println(order+order.getUserInfo().toString());
+		for (Orders order : list) {
+			System.out.println(order + order.getUserInfo().toString());
 		}
 		sqlSession.close();
 	}
+
 	@Test
 	public void findOrderAndOrderDetailResultMap() throws Exception {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		OrdersMapperCustom ordersMapperCustom = sqlSession.getMapper(OrdersMapperCustom.class);
 		List<Orders> list = ordersMapperCustom.findOrderAndOrderDetailResultMap();
-		for(Orders order:list){
-			System.out.println(order+order.getUserInfo().toString());
-			for(OrderDetail od:order.getOrderDetails()){
+		for (Orders order : list) {
+			System.out.println(order + order.getUserInfo().toString());
+			for (OrderDetail od : order.getOrderDetails()) {
 				System.out.println(od.toString());
 			}
 			System.out.println("------------------------------------------------------------");
 		}
-		
+
 		sqlSession.close();
 	}
+
 	@Test
 	public void findUserInfoAndItemsResultMap() throws Exception {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		OrdersMapperCustom ordersMapperCustom = sqlSession.getMapper(OrdersMapperCustom.class);
 		List<UserInfo> list = ordersMapperCustom.findUserInfoAndItemsResultMap();
-		for(UserInfo u:list){
+		for (UserInfo u : list) {
 			System.out.println(u);
-			for(Orders o:u.getOrderList()){
+			for (Orders o : u.getOrderList()) {
 				System.out.println(o);
-				for(OrderDetail od:o.getOrderDetails()){
+				for (OrderDetail od : o.getOrderDetails()) {
 					System.out.println(od);
 					System.out.println(od.getItem());
 				}
 			}
 			System.out.println("-----------------------------------------------------------------------");
 		}
-		
+
 		sqlSession.close();
 	}
+
+	@Test
+	public void findOrdersUserInfoLazyLoading() throws Exception {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		OrdersMapperCustom ordersMapperCustom = sqlSession.getMapper(OrdersMapperCustom.class);
+		List<Orders> list = ordersMapperCustom.findOrdersUserInfoLazyLoading();
+		for (Orders o : list) {
+			System.out.println(o);
+			UserInfo userInfo = o.getUserInfo();
+			System.out.println(userInfo);
+		}
+		sqlSession.close();
+	}
+
+	
 }
