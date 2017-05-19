@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hy.ly.entity.Orders;
 import com.hy.ly.entity.OrdersCustom;
+import com.hy.ly.entity.UserInfo;
 
 public interface OrdersMapperCustom {
 
@@ -15,4 +16,7 @@ public interface OrdersMapperCustom {
 
 	// 查询订单关联查询用户以及订单明细ResultMap
 	public List<Orders> findOrderAndOrderDetailResultMap() throws Exception;
+
+	// 查询用户以及商品信息ResultMap
+	public List<UserInfo> findUserInfoAndItemsResultMap() throws Exception;
 }

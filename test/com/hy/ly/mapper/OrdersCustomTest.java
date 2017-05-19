@@ -13,6 +13,7 @@ import org.junit.Test;
 import com.hy.ly.entity.OrderDetail;
 import com.hy.ly.entity.Orders;
 import com.hy.ly.entity.OrdersCustom;
+import com.hy.ly.entity.UserInfo;
 
 public class OrdersCustomTest {
 	private SqlSessionFactory sqlSessionFactory;
@@ -58,6 +59,25 @@ public class OrdersCustomTest {
 				System.out.println(od.toString());
 			}
 			System.out.println("------------------------------------------------------------");
+		}
+		
+		sqlSession.close();
+	}
+	@Test
+	public void findUserInfoAndItemsResultMap() throws Exception {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		OrdersMapperCustom ordersMapperCustom = sqlSession.getMapper(OrdersMapperCustom.class);
+		List<UserInfo> list = ordersMapperCustom.findUserInfoAndItemsResultMap();
+		for(UserInfo u:list){
+			System.out.println(u);
+			for(Orders o:u.getOrderList()){
+				System.out.println(o);
+				for(OrderDetail od:o.getOrderDetails()){
+					System.out.println(od);
+					System.out.println(od.getItem());
+				}
+			}
+			System.out.println("-----------------------------------------------------------------------");
 		}
 		
 		sqlSession.close();

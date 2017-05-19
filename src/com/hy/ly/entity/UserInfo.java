@@ -1,6 +1,7 @@
 package com.hy.ly.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class UserInfo {
 	private int userid;
@@ -8,6 +9,16 @@ public class UserInfo {
 	private Date birthday;
 	private String sex;
 	private String address;
+	private List<Orders> orderList;
+
+
+	public List<Orders> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Orders> orderList) {
+		this.orderList = orderList;
+	}
 
 	public int getUserid() {
 		return userid;

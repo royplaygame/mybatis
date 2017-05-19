@@ -20,14 +20,46 @@
 		</association>
 	</resultMap>
 	<!-- 查询订单关联查询用户以及订单明细 使用resultMap -->
-	<resultMap type="com.hy.ly.entity.Orders" id="OrderAndOrderDetailResultMap" extends="OrderInfoUserResultMap">
+	<resultMap type="com.hy.ly.entity.Orders" id="OrderAndOrderDetailResultMap"
+		extends="OrderInfoUserResultMap">
 		<!-- 配置订单详情的关联信息 -->
 		<collection property="orderDetails" ofType="com.hy.ly.entity.OrderDetail">
-			<id column="orderdetail_id" property="id"/>
-			<result column="orders_id" property="orderid"/>
-			<result column="items_id" property="itemsid"/>
-			<result column="items_num" property="items_num"/>
+			<id column="orderdetail_id" property="id" />
+			<result column="orders_id" property="orderid" />
+			<result column="items_id" property="itemsid" />
+			<result column="items_num" property="items_num" />
 		</collection>
+	</resultMap>
+	<!-- 查询用户以及购买的商品信息 -->
+	<resultMap type="com.hy.ly.entity.UserInfo" id="UserInfoAndItemsResultMap">
+		<!-- 用户信息 -->
+		<id column="userid" property="userid" />
+		<result column="username" property="username" />
+		<result column="sex" property="sex" />
+		<result column="address" property="address" />
+		<!-- 订单信息 -->
+		<collection property="orderList" ofType="com.hy.ly.entity.Orders">
+			<id column="orderid" property="orderid" />
+			<result column="userid" property="userid" />
+			<result column="number" property="number" />
+			<result column="createtime" property="createtime" />
+			<result column="note" property="note" />
+			<!-- 订单明细信息 -->
+			<collection property="orderDetails" ofType="com.hy.ly.entity.OrderDetail">
+				<id column="orderdetail_id" property="id" />
+				<result column="orders_id" property="orderid" />
+				<result column="items_id" property="itemsid" />
+				<result column="items_num" property="items_num" />
+				<!-- 商品信息 -->
+				<association property="item" javaType="com.hy.ly.entity.Items">
+					<id column="item_id" property="id"/>
+					<result column="item_name"  property="name"/>
+					<result column="item_detail"  property="detail"/>
+					<result column="item_price"  property="price"/>
+				</association>
+			</collection>
+		</collection>
+
 	</resultMap>
 
 	<!-- 查询订单关联查询用户 使用resultType -->
@@ -52,6 +84,20 @@
 		o.*,u.username,u.sex,u.address,od.id orderdetail_id,
 		od.orders_id,od.items_id,od.items_num FROM orders o,userinfo u,
 		orderdetail od WHERE o.userid=u.userid and o.orderid=od.orders_id;
+	</select>
+
+	<!-- 查询用户以及购买的商品信息 使用resultMap -->
+	<select id="findUserInfoAndItemsResultMap" resultMap="UserInfoAndItemsResultMap">
+		SELECT
+		o.*,u.username,u.sex,u.address,od.id orderdetail_id,
+		od.orders_id,od.items_id,od.items_num,it.id item_id,
+		it.name item_name,
+		it.detail
+		item_detail,it.price item_price
+		FROM orders o,userinfo u, orderdetail
+		od ,items it WHERE o.userid=u.userid
+		and o.orderid=od.orders_id and
+		it.id=od.items_id;
 	</select>
 
 </mapper>

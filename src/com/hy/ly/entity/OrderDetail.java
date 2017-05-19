@@ -6,6 +6,14 @@ public class OrderDetail {
 	private Integer orderid;
 	private Integer itemsid;
 	private Integer items_num;
+	private Items item;
+	
+	public Items getItem() {
+		return item;
+	}
+	public void setItem(Items item) {
+		this.item = item;
+	}
 	public Integer getId() {
 		return id;
 	}

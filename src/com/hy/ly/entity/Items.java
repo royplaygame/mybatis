@@ -46,5 +46,10 @@ public class Items {
 	public void setCreatetime(Date createtime) {
 		this.createtime = createtime;
 	}
+	@Override
+	public String toString() {
+		return "Items [id=" + id + ", name=" + name + ", price=" + price + ", detail=" + detail + ", pic=" + pic
+				+ ", createtime=" + createtime + "]";
+	}
 	
 }
