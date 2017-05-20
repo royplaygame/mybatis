@@ -3,8 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hy.ly.mapper.UserInfoMapper">
-	<!-- 开启本mapper的namespace的二级缓存  -->
-	<cache></cache>
+	<!-- 开启本mapper的namespace的二级缓存  
+	type指定cache的实现类型，默认实现PerpetualCache,要和Ehcache整合，要配置type类型为Ehcache的接口类型
+	-->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>
 	<!-- 定义一个sql片段 -->
 	<sql id="query_userInfo_where">
 		<if test="userInfoCustom!=null">

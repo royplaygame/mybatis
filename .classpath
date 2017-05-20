@@ -17,6 +17,8 @@
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.25.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.25.jar"/>
 	<classpathentry kind="lib" path="lib/mybatis-3.4.4.jar"/>
+	<classpathentry kind="lib" path="lib/ehcache-1.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/mybatis-ehcache-1.0.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
